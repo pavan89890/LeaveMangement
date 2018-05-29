@@ -17,7 +17,7 @@ import com.pavan.repository.EmployeeRepository;
 import com.pavan.repository.SecurityQuestionRepository;
 
 @Controller
-@SessionAttributes(names="currentUser")
+@SessionAttributes(names = "currentUser")
 public class WelcomeController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -31,9 +31,9 @@ public class WelcomeController {
 	}
 
 	@PostMapping("/login")
-	public String login(@RequestParam String username, @RequestParam String password, Model model) {
+	public String login(@RequestParam String userName, @RequestParam String password, Model model) {
 		String message = "";
-		EmployeeBO currentUser = employeeRepository.findByUsernameAndPassword(username, password);
+		EmployeeBO currentUser = employeeRepository.findByUserNameAndPassword(userName, password);
 		if (currentUser == null) {
 			message = "Please Enter Correct Username Or Password.";
 			model.addAttribute("message", message);
@@ -62,10 +62,13 @@ public class WelcomeController {
 		mv.setViewName("register");
 		return mv;
 	}
-	
-	@GetMapping("/profile")
-	public String profile() {
-		return "profile";
-	}
 
+	@GetMapping("/profile")
+	public ModelAndView profile() {
+		List<SecurityQuestionBO> securityQns = securityQuestionRepository.findAll();
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("securityQns", securityQns);
+		mv.setViewName("profile");
+		return mv;
+	}
 }

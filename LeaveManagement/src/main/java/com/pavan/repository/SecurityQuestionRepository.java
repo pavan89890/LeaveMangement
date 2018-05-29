@@ -7,5 +7,4 @@ import com.pavan.model.SecurityQuestionBO;
 
 @Repository
 public interface SecurityQuestionRepository extends JpaRepository<SecurityQuestionBO, Long> {
-	public SecurityQuestionBO findById(long id);
 }

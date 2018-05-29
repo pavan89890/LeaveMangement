@@ -20,17 +20,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "employee")
 public class EmployeeBO implements Serializable {
-	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
 	private long id;
 
 	@Column(name = "FIRST_NAME")
-	private String firstname;
+	private String firstName;
 
 	@Column(name = "LAST_NAME")
-	private String lastname;
+	private String lastName;
 
 	@Column(name = "DOB")
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -43,7 +42,7 @@ public class EmployeeBO implements Serializable {
 	private String telephone;
 
 	@Column(name = "USER_NAME")
-	private String username;
+	private String userName;
 
 	@Column(name = "PASSWORD")
 	private String password;
@@ -86,20 +85,20 @@ public class EmployeeBO implements Serializable {
 		this.id = id;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public Date getDob() {
@@ -126,12 +125,12 @@ public class EmployeeBO implements Serializable {
 		this.telephone = telephone;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {

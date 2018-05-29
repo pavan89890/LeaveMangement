@@ -9,7 +9,162 @@
 	<div layout:fragment="page_content" id="page_content">
 		<h1>Profile</h1>
 		<hr>
-		<p>Profile part comes here</p>
+		<form class="form-horizontal" action="/register" method="post"
+			id="profileFormId">
+			<input type="hidden" name="id" th:value="${currentUser.id}">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="firstName">First
+							Name:</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="firstName"
+								placeholder="Enter First Name" name="firstName"
+								th:value="${currentUser.firstName}">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="lastName">Last
+							Name:</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="lastName"
+								placeholder="Enter Last Name" name="lastName"
+								th:value="${currentUser.lastName}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="dob">DOB :</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="dob"
+								placeholder="Select dob" name="dob"
+								th:value="${#dates.format(currentUser.dob,'dd-MM-yyyy')}">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="email">Email :</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="email"
+								placeholder="Enter email" name="email"
+								th:value="${currentUser.email}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="telephone">Telephone
+							:</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="telephone"
+								placeholder="Enter telephone" name="telephone"
+								th:value="${currentUser.telephone}">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="userName">User
+							Name:</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="userName"
+								placeholder="Enter Username" name="userName"
+								th:value="${currentUser.userName}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="password">Password
+							:</label>
+						<div class="col-sm-9">
+							<input type="password" class="form-control" id="password"
+								placeholder="Enter password" name="password"
+								th:value="${currentUser.password}">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="securityQuestionId">Security
+							Question :</label>
+						<div class="col-sm-9">
+							<select class="form-control" name="securityQuestion"
+								id="securityQuestionId">
+								<option value=0>Select Security Question</option>
+								<th:block th:each="securityQn:${securityQns}">
+									<option th:value="${securityQn.id}"
+	 									th:text="${securityQn.question}"></option>
+								</th:block>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="securityAnswer">Security
+							Answer :</label>
+						<div class="col-sm-9">
+							<input class="form-control" placeholder="Security Answer"
+								name="securityAnswer" id="securityAnswer" type="text"
+								th:value="${currentUser.securityAnswer}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" class="btn btn-success"
+						onclick="javascript:pavan();">Save</button>
+				</div>
+			</div>
+
+		</form>
+
 	</div>
+
+	<th:block layout:fragment="scripts">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("#firstName").focus();
+				$("#dob").datepicker({
+					format : 'dd-mm-yyyy'
+				});
+			});
+
+			function pavan() {
+				$.ajax({
+					url : $("#profileFormId").attr("action"),
+					type : 'post',
+					data : $("#profileFormId").serialize(),
+					success : function(data) {
+						if (data.split("-")[0] == "SUCCESS") {
+							alert(data.split("-")[1]);
+							$("#profileFormId")[0].reset();
+							window.location.reload();
+						} else {
+							showMessage(data.split("-")[1], "error");
+						}
+
+					},
+					error : function() {
+						alert("Unable to load details.");
+					}
+				});
+			}
+		</script>
+	</th:block>
 </body>
 </html>

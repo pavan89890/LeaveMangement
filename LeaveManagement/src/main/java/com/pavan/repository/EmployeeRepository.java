@@ -9,6 +9,6 @@ import com.pavan.model.EmployeeBO;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<EmployeeBO, Long> {
-	public List<EmployeeBO> findByEmailOrUsername(String email,String username);
-	public EmployeeBO findByUsernameAndPassword(String userName,String password);
+	public List<EmployeeBO> findByEmailOrUserName(String email,String userName);
+	public EmployeeBO findByUserNameAndPassword(String userName,String password);
 }
