@@ -45,4 +45,14 @@ public class MyRestController {
 			}
 		}
 	}
+
+	@PostMapping("/managerMapping")
+	public String managerMapping(@ModelAttribute("emp") EmployeeBO emp) {
+
+		for (EmployeeBO e : emp.getEmployees()) {
+			e.setManager(emp);
+			employeeRepository.save(e);
+		}
+		return "SUCCESS-success";
+	}
 }

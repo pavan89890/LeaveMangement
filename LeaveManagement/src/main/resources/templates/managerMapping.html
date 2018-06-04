@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{base}">
+<head>
+</head>
+<body>
+	<!-- /.row -->
+	<div layout:fragment="page_content" id="page_content">
+		<h1>Manager Mapping</h1>
+		<hr>
+		<form class="form-horizontal" action="/managerMapping" method="post"
+			id="managerMappingFormId">
+			<input type="hidden" name="emp" th:value="${currentUser.id}" id="managerId">
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th><input type="checkbox" id="selectAllCheckId">&nbsp;Select</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>DOB</th>
+							<th>Manager</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="employee,status:${employees}">
+							<td><input type="checkbox" th:value="${employee.id}" th:name="'employees['+${status.index}+']'"></td>
+							<td th:text="${employee.firstName}"></td>
+							<td th:text="${employee.lastName}"></td>
+							<td th:text="${employee.email}"></td>
+							<td th:text="${#dates.format(employee.dob,'dd-MM-yyy')}"></td>
+							<td th:text="${employee.manager!=null?employee.manager.firstName+' '+employee.manager.lastName:''}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" class="btn btn-success"
+						id="managerMappingBtnId">Save</button>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+
+	<th:block layout:fragment="scripts">
+		<script type="text/javascript">
+			$("#selectAllCheckId").on("change", function() {
+				var val = $(this).prop("checked");
+				$('table input[type="checkbox"]').each(function() {
+					$(this).prop('checked', val);
+				});
+			});
+
+			$("#managerMappingBtnId").click(function() {
+				var manager = $("#managerId").val();
+				var selEmployees = [];
+				$('table tbody tr td input[type="checkbox"]').each(function() {
+					if ($(this).prop('checked')) {
+						selEmployees.push($(this).val());
+					}
+				});
+
+				var dataVal = {
+					manager : $("#managerId").val(),
+					selEmployees : selEmployees
+				};
+				if (selEmployees.length > 0) {
+					$.ajax({
+						url : $("#managerMappingFormId").attr("action"),
+						type : 'post',
+						data :$("#managerMappingFormId").serialize(),
+						success : function(data) {
+							if (data.split("-")[0] == "SUCCESS") {
+								$("#managerMappingFormId")[0].reset();
+								alert(data.split("-")[1]);
+								window.location.reload();
+							} else {
+								showMessage(data.split("-")[1], "error");
+							}
+						},
+						error : function() {
+							alert("Unable to load details.");
+						}
+					});
+				}else{
+					alert("Please Select Employee(s)");
+				}
+			});
+		</script>
+	</th:block>
+</body>
+</html>

@@ -2,6 +2,8 @@ package com.pavan.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +42,7 @@ public class WelcomeController {
 			return "login";
 		} else {
 			model.addAttribute("currentUser", currentUser);
-			return "redirect:/dashboard";
+			return "redirect:/employee/dashboard";
 		}
 	}
 
@@ -49,7 +51,7 @@ public class WelcomeController {
 		return "login";
 	}
 
-	@GetMapping("/dashboard")
+	@GetMapping("/employee/dashboard")
 	public String dashboard() {
 		return "dashboard";
 	}
@@ -63,7 +65,7 @@ public class WelcomeController {
 		return mv;
 	}
 
-	@GetMapping("/profile")
+	@GetMapping("/employee/profile")
 	public ModelAndView profile() {
 		List<SecurityQuestionBO> securityQns = securityQuestionRepository.findAll();
 		ModelAndView mv = new ModelAndView();
@@ -71,4 +73,15 @@ public class WelcomeController {
 		mv.setViewName("profile");
 		return mv;
 	}
+
+	@GetMapping("/employee/managerMapping")
+	public ModelAndView managerMapping(HttpSession session) {
+		EmployeeBO currentUser = (EmployeeBO) session.getAttribute("currentUser");
+		List<EmployeeBO> employees = employeeRepository.findAllExceptOne(currentUser.getId());
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("employees", employees);
+		mv.setViewName("managerMapping");
+		return mv;
+	}
+
 }

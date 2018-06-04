@@ -2,6 +2,7 @@ package com.pavan.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -76,6 +78,9 @@ public class EmployeeBO implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MANAGER_ID")
 	private EmployeeBO manager;
+
+	@OneToMany(mappedBy = "manager")
+	private List<EmployeeBO> employees;
 
 	public long getId() {
 		return id;
@@ -211,5 +216,13 @@ public class EmployeeBO implements Serializable {
 
 	public void setManager(EmployeeBO manager) {
 		this.manager = manager;
+	}
+
+	public List<EmployeeBO> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<EmployeeBO> employees) {
+		this.employees = employees;
 	}
 }

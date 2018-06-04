@@ -112,7 +112,8 @@
 						th:text="${currentUser.userName}"></span> <i
 						class="fa fa-caret-down"></i> </a>
 					<ul class="dropdown-menu dropdown-user">
-						<li><a href="/profile"><i class="fa fa-user fa-fw"></i> Profile</a></li>
+						<li><a href="/employee/profile"><i class="fa fa-user fa-fw"></i>
+								Profile</a></li>
 						<li class="divider"></li>
 						<li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i>
 								Logout</a></li>
@@ -134,6 +135,12 @@
 								</span>
 							</div> <!-- /input-group -->
 						</li>
+						<li><a href="javascript:void(0)"><i
+								class="fa fa-user fa-fw"></i> Employees <span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="/employee/managerMapping">Manager Mapping</a></li>
+
+							</ul> <!-- /.nav-second-level --></li>
 						<li><a href="javascript:void(0)"><i
 								class="fa fa-calendar fa-fw"></i> Leave Management<span
 								class="fa arrow"></span></a>
@@ -173,7 +180,7 @@
 
 	<!-- Custom Theme JavaScript -->
 	<script src="../dist/js/sb-admin-2.js"></script>
-	
+
 	<!-- Toastr Plugin JavaScript -->
 	<script src="../vendor/toastr/toastr.min.js"></script>
 
