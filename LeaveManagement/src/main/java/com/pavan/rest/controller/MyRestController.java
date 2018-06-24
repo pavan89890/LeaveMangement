@@ -3,9 +3,13 @@ package com.pavan.rest.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -34,6 +38,8 @@ public class MyRestController {
 						+ " your registration done successfully.Please login to continue.";
 				return message;
 			} else if (employee.getId() > 0 && dupEmpList.size() == 1) {
+				EmployeeBO e = employeeRepository.findOne(employee.getId());
+				employee.setProfilePic(e.getProfilePic());
 				employeeRepository.save(employee);
 				message = "SUCCESS-Hi " + employee.getFirstName() + " " + employee.getLastName()
 						+ " your profile saved successfully.";
@@ -53,6 +59,12 @@ public class MyRestController {
 			e.setManager(emp);
 			employeeRepository.save(e);
 		}
-		return "SUCCESS-success";
+		return "SUCCESS-Successfully Done.";
+	}
+
+	@RequestMapping(value = "/employee/getImage/{emp}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getImage(@PathVariable("emp") EmployeeBO emp) {
+		return emp.getProfilePic();
 	}
 }

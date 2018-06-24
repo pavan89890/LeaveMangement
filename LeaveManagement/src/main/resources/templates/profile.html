@@ -7,7 +7,21 @@
 <body>
 	<!-- /.row -->
 	<div layout:fragment="page_content" id="page_content">
-		<h1>Profile</h1>
+		<div class="row media">
+			<div class="media-left">
+				<img th:src="@{'/employee/getImage/'+${currentUser.id}}"
+					alt="No Image" class="media-object" style="width: 100px">
+			</div>
+			<div class="media-body">
+				<form action="/employee/saveProfilePic" method="post"
+					enctype="multipart/form-data">
+					<input type="file" name="profilePic" id="profilePic">
+					<button class="btn btn-primary btn-xs" type="submit"
+						onclick="return verifyProfilePic()">Upload Profile
+						Picture</button>
+				</form>
+			</div>
+		</div>
 		<hr>
 		<form class="form-horizontal" action="/register" method="post"
 			id="profileFormId">
@@ -132,7 +146,7 @@
 			</div>
 
 		</form>
-
+		<hr>
 	</div>
 
 	<th:block layout:fragment="scripts">
@@ -163,6 +177,20 @@
 						alert("Unable to load details.");
 					}
 				});
+			}
+
+			function verifyProfilePic() {
+				if ($("#profilePic").val() == "") {
+					alert("Please Select Image");
+					$("#profilePic").focus();
+					return false;
+				} else if (!$("#profilePic").val().endsWith(".jpg")) {
+					alert("Please Select JPG Image Only");
+					$("#profilePic").focus();
+					return false;
+				} else {
+					return true;
+				}
 			}
 		</script>
 	</th:block>

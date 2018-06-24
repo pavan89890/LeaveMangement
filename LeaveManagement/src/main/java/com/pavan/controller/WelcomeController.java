@@ -1,5 +1,6 @@
 package com.pavan.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pavan.model.EmployeeBO;
@@ -82,6 +84,24 @@ public class WelcomeController {
 		mv.addObject("employees", employees);
 		mv.setViewName("managerMapping");
 		return mv;
+	}
+
+	@PostMapping("/employee/saveProfilePic")
+	public String saveProfilePic(HttpSession session, @RequestParam("profilePic") MultipartFile file) {
+		if (!file.isEmpty() && file.getContentType().equals("image/jpeg")) {
+			EmployeeBO currentUser = (EmployeeBO) session.getAttribute("currentUser");
+			try {
+				currentUser.setProfilePic(file.getBytes());
+				employeeRepository.save(currentUser);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return e.getMessage();
+			}
+		} else {
+			return "Please Upload Image image/jpeg file";
+		}
+
+		return "redirect:/employee/profile";
 	}
 
 }

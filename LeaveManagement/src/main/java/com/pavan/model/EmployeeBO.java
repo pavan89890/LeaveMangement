@@ -22,6 +22,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "employee")
 public class EmployeeBO implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
@@ -81,6 +83,9 @@ public class EmployeeBO implements Serializable {
 
 	@OneToMany(mappedBy = "manager")
 	private List<EmployeeBO> employees;
+
+	@Column(name = "PROFILE_PIC")
+	private byte[] profilePic;
 
 	public long getId() {
 		return id;
@@ -224,5 +229,13 @@ public class EmployeeBO implements Serializable {
 
 	public void setEmployees(List<EmployeeBO> employees) {
 		this.employees = employees;
+	}
+
+	public byte[] getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(byte[] profilePic) {
+		this.profilePic = profilePic;
 	}
 }

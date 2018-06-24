@@ -14,12 +14,6 @@
 <!-- Bootstrap Core CSS -->
 <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- MetisMenu CSS -->
-<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-<!-- Custom CSS -->
-<link href="../dist/css/sb-admin-2.css" rel="stylesheet">
-
 <!-- Custom Fonts -->
 <link href="../vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
@@ -43,7 +37,7 @@
 </head>
 
 <body>
-
+<br>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
@@ -73,7 +67,8 @@
 								</div>
 								<div class="form-group">
 									<input class="form-control" placeholder="Telephone"
-										id="telephone" name="telephone" type="text" maxlength="15" autofocus>
+										id="telephone" name="telephone" type="text" maxlength="15"
+										autofocus>
 								</div>
 								<div class="form-group">
 									<input class="form-control" placeholder="Username"
@@ -118,16 +113,11 @@
 	<!-- Bootstrap Core JavaScript -->
 	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
-	<!-- Metis Menu Plugin JavaScript -->
-	<script src="../vendor/metisMenu/metisMenu.min.js"></script>
-
 	<!-- Toastr Plugin JavaScript -->
 	<script src="../vendor/toastr/toastr.min.js"></script>
 
 	<script src="../vendor/datepicker/bootstrap-datepicker.min.js"></script>
 
-	<!-- Custom Theme JavaScript -->
-	<script src="../dist/js/sb-admin-2.js"></script>
 	<script type="text/javascript">
 		toastr.options = {
 			"closeButton" : true,
@@ -147,6 +137,15 @@
 			"hideMethod" : "fadeOut"
 		}
 
+		function validateEmail(sEmail) {
+			var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+			if (filter.test(sEmail)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 		function showMessage(message, type) {
 			if (type == "error") {
 				toastr.error(message, "Error");
@@ -162,39 +161,43 @@
 	</script>
 	<script type="text/javascript">
 		function verify() {
-			if ($("#firstName").val() == "") {
+			if ($("#firstName").val().trim() == "") {
 				showMessage("Please Enter First Name", "warning");
 				$("#firstName").focus();
 				return false;
-			} else if ($("#lastName").val() == "") {
+			} else if ($("#lastName").val().trim() == "") {
 				showMessage("Please Enter Last Name", "warning");
 				$("#lastName").focus();
 				return false;
-			} else if ($("#dob").val() == "") {
+			} else if ($("#dob").val().trim() == "") {
 				showMessage("Please Select Date Of Birth", "warning");
 				$("#dob").focus();
 				return false;
-			} else if ($("#email").val() == "") {
+			} else if ($("#email").val().trim() == "") {
 				showMessage("Please Enter Email", "warning");
 				$("#email").focus();
 				return false;
-			} else if ($("#telephone").val() == "") {
+			} else if (!validateEmail($("#email").val().trim().trim())) {
+				showMessage("Please Enter Valid Email", "warning");
+				$("#email").focus();
+				return false;
+			} else if ($("#telephone").val().trim() == "") {
 				showMessage("Please Enter Telephone", "warning");
 				$("#telephone").focus();
 				return false;
-			} else if ($("#userName").val() == "") {
+			} else if ($("#userName").val().trim() == "") {
 				showMessage("Please Enter Username", "warning");
 				$("#userName").focus();
 				return false;
-			} else if ($("#password").val() == "") {
+			} else if ($("#password").val().trim() == "") {
 				showMessage("Please Enter Password", "warning");
 				$("#password").focus();
 				return false;
-			} else if ($("#securityQuestionId").val() == "0") {
+			} else if ($("#securityQuestionId").val().trim() == "0") {
 				showMessage("Please Select Security Question", "warning");
 				$("#securityQuestionId").focus();
 				return false;
-			} else if ($("#securityAnswer").val() == "") {
+			} else if ($("#securityAnswer").val().trim() == "") {
 				showMessage("Please Enter Security Answer", "warning");
 				$("#securityAnswer").focus();
 				return false;
@@ -222,10 +225,10 @@
 
 		$(document).ready(function() {
 			$("#firstName").focus();
-			var maxDateVal=new Date();
+			var maxDateVal = new Date();
 			$("#dob").datepicker({
 				format : 'dd-mm-yyyy',
-				minDate:0
+				minDate : 0
 			});
 		});
 	</script>
